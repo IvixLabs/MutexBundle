@@ -8,6 +8,11 @@ use Symfony\Component\DependencyInjection\Loader;
 
 class IvixLabsMutexExtension extends Extension
 {
+
+    private $storageClasses = array(
+        'memcache' => 'IvixLabs\Mutex\Storage\MemcacheMutexStorage'
+    );
+
     /**
      * {@inheritDoc}
      */
@@ -16,7 +21,19 @@ class IvixLabsMutexExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $storages = array();
+        foreach ($config['storages'] as $stoageName => $storageDefinition) {
+            $definition = new Definition($this->storageClasses[$storageDefinition['type']]);
+            $definition->addTag('ivixlabs.mutex.storage');
+
+            $id = 'ivixlabs.mutex.storage.' . $stoageName;
+
+            $storages[$id] = $definition;
+        }
+        $container->addDefinitions($storages);
+
+
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
     }
 }

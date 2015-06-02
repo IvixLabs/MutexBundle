@@ -12,11 +12,22 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ivixlabs_mutex');
+        $rootNode = $treeBuilder->root('ivix_labs_mutex');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->arrayNode('storages')
+                    ->prototype('array')
+                    ->children()
+                        ->scalarNode('type')->end()
+                            ->arrayNode('settings')->useAttributeAsKey('name')
+                                ->prototype('scalar')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
 
         return $treeBuilder;
     }
