@@ -1,16 +1,16 @@
 <?php
 namespace IvixLabs\MutexBundle;
 
-use IvixLabs\CoprocBundle\DependencyInjection\CoprocSlaveCompilerPass;
+use IvixLabs\MutexBundle\DependencyInjection\MutexStorageCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class IvixLabsCoprocBundle extends Bundle
+class IvixLabsMutexBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new CoprocSlaveCompilerPass());
+        $container->addCompilerPass(new MutexStorageCompilerPass());
     }
 
 }
