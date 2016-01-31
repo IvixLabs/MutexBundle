@@ -11,7 +11,9 @@ class IvixLabsMutexExtension extends Extension
 {
 
     private $storageClasses = array(
-        'memcache' => 'IvixLabs\Mutex\Storage\MemcacheMutexStorage'
+        'memcache' => 'IvixLabs\Mutex\Storage\MemcacheMutexStorage',
+        'memcached' => 'IvixLabs\Mutex\Storage\MemcachedMutexStorage',
+        'file' => 'IvixLabs\Mutex\Storage\FileMutexStorage',
     );
 
     /**
@@ -25,9 +27,10 @@ class IvixLabsMutexExtension extends Extension
         $storages = array();
         foreach ($config['storages'] as $stoageName => $storageDefinition) {
             $definition = new Definition($this->storageClasses[$storageDefinition['type']]);
-            $definition->addTag('ivixlabs.mutex.storage');
+            $definition->addTag('component.mutex.storage');
+            $definition->addArgument($storageDefinition['settings']);
 
-            $id = 'ivixlabs.mutex.storage.' . $stoageName;
+            $id = 'component.mutex.storage.' . $stoageName;
 
             $storages[$id] = $definition;
         }
