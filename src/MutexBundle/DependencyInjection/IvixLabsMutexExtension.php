@@ -27,10 +27,10 @@ class IvixLabsMutexExtension extends Extension
         $storages = array();
         foreach ($config['storages'] as $stoageName => $storageDefinition) {
             $definition = new Definition($this->storageClasses[$storageDefinition['type']]);
-            $definition->addTag('component.mutex.storage');
+            $definition->addTag('ivixlabs.mutex.storage');
             $definition->addArgument($storageDefinition['settings']);
 
-            $id = 'component.mutex.storage.' . $stoageName;
+            $id = 'ivixlabs.mutex.storage.' . $stoageName;
 
             $storages[$id] = $definition;
         }
