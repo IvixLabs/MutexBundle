@@ -17,6 +17,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('storages')
+                    ->useAttributeAsKey('name')
                     ->prototype('array')
                     ->children()
                         ->scalarNode('type')->end()
