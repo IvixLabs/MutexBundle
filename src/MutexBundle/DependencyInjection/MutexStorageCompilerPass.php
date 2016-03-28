@@ -27,7 +27,7 @@ class MutexStorageCompilerPass implements CompilerPassInterface
         $services = $container->findTaggedServiceIds($tag);
         foreach ($services as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
-                $definition->addMethodCall('addStorage', array(new Reference($id)));
+                $definition->addMethodCall('addStorage', array(new Reference($id), $attributes['storage_name']));
             }
         }
     }
